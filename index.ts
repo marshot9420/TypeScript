@@ -1,20 +1,32 @@
-// Union Type
-let member: number | string = 123;
-member = "marshot";
+// 함수(): 타입 => 해당 타입만 return
 
-let members: (number | string)[] = [1, "2", 3];
+function myFunc(x: number): number {
+  return x * 2;
+}
 
-let myObj: { a: string | number } = { a: 2 };
+myFunc(2);
 
-// any Type
-let player: any;
-player = 123;
-player = [];
+// return 막기
+function anyFunc(x: number): void {
+  return x * 2;
+}
 
-// unknown type
-let username: unknown;
-username = 123;
-username = {};
+anyFunc(2);
 
-// 아래는 안됨, any보다 안정적
-let myVar: string = username;
+// 타입 지정된 파라미터는 필수
+
+//옵션 파라미터
+function optionalFunc(x?: number): number {
+  return x + 2;
+}
+
+optionalFunc();
+
+// 변수? :number = number | undefined
+
+function addFunc(x: number | string): void {
+  console.log(x + 3);
+}
+// string + number (가능)
+// number + number (가능)
+// 이외엔 불가능
