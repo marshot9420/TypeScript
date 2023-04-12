@@ -1,40 +1,46 @@
-// Narrowing: 타입이 애매할 때 조건문을 이용해서 범위를 좁혀준다
-function myFunc(x: number | string) {
-  if (typeof x === "string") {
-    return x + "1";
-  } else {
-    return x + 1;
-  }
-}
+// Type Alias
+type AnimalType = string | number | undefined;
 
-function func(x: number | string) {
-  let array: number[] = [];
-  if (typeof x === "number") {
-    array[0] = x;
-  }
-}
+let animal: AnimalType = "marshot";
 
-func(123);
+type PersonType = {
+  name: string;
+  age: number;
+};
 
-// Narrowing 문법 사용시 주의점
-// if문 썼으면 끝까지 써야 안전
-// else, else if 안쓰면 에러를 잡을 수도 없다
+let person: PersonType = {
+  name: "marshot",
+  age: 28,
+};
 
-// Narrowing으로 판정해주는 문법들
-// typeof 변수
-// 속성명 in 오브젝트자료
-// 인스턴스 instanceof 부모
+//TypeScript에서 Object 자료 수정 하는 법
+type PlayerType = {
+  readonly name: string; // 이 Object 자료는 읽기만 가능(readonly), 수정 불가
+};
 
-// Narrowing으로 판정해주는 문법들 => 그냥 현재 변수의 타입이 뭔지 특정지을 수 있기만 하면 다 인정해준다
+const player: PlayerType = {
+  name: "marshot",
+};
 
-function something(x: number | string) {
-  let array: number[] = [];
-  array[0] = x as number;
-}
+type UserType = {
+  name?: string; // string | undefined
+};
 
-something(123);
+const username: UserType = {
+  name: "marshot",
+};
 
-// 귀찮으면 assertion 문법 (타입 (잠깐) 덮어쓰기)
-// Assertion 문법의 용도:
-// 1. Narrowing 할 때, 여러개 얽힌 유니온 타입을 하나의 타입으로 확정하고 싶을 때
-// 2. 무슨 타입이 들어올지 100% 확실할 때
+// 이런것도 가능
+type Name = string;
+type Age = number;
+type Hero = Name | Age;
+
+type PositionX = { x: number };
+type PositionY = { y: number };
+
+type NewPositionType = PositionX & PositionY; // {x: number, y: number}, & 연산자로 Object 타입을 extend 한다
+
+let position: NewPositionType = { x: 10, y: 20 };
+
+// Type 변수 지정할 때의 주의점
+// 같은 이름의 type 변수 재정의 불가능
