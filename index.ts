@@ -1,46 +1,41 @@
-// Type Alias
-type AnimalType = string | number | undefined;
+// Literal Types
+let username: "marshot"; // username에는 "marshot"만 들어올 수 있음
+// 타입을 더욱 엄격하게 검사
+let introduce: "marshot" | "genius"; // 유니온 타입도 가능
 
-let animal: AnimalType = "marshot";
+function myFunc(a: "hello") {
+  // 이렇게하면 파라미터에 hello만 가능
+}
 
-type PersonType = {
-  name: string;
-  age: number;
-};
+function myFunc2(a: "hello"): 1 | 0 {
+  // 이렇게하면 1 또는 0만 return 가능
+  return 1;
+}
 
-let person: PersonType = {
-  name: "marshot",
-  age: 28,
-};
+// 숙제
+function rockPaperScissors(
+  hand: "rock" | "paper" | "scissors"
+): ("rock" | "paper" | "scissors")[] {
+  return ["rock"];
+}
 
-//TypeScript에서 Object 자료 수정 하는 법
-type PlayerType = {
-  readonly name: string; // 이 Object 자료는 읽기만 가능(readonly), 수정 불가
-};
-
-const player: PlayerType = {
-  name: "marshot",
-};
-
-type UserType = {
-  name?: string; // string | undefined
-};
-
-const username: UserType = {
+var player = {
   name: "marshot",
 };
 
-// 이런것도 가능
-type Name = string;
-type Age = number;
-type Hero = Name | Age;
+function playerFunc(name: "marshot") {}
 
-type PositionX = { x: number };
-type PositionY = { y: number };
+playerFunc(player.name); // playerFunc의 파라미터에는 "marshot"이라는 '타입'('자료'가 아닌)이 들어와야 한다
+// 현재 들어온 'player.name'은 type이 "marshot"이 아닌, "marshot"이라는 string이다
 
-type NewPositionType = PositionX & PositionY; // {x: number, y: number}, & 연산자로 Object 타입을 extend 한다
+// 해결책
 
-let position: NewPositionType = { x: 10, y: 20 };
+var playerObj = {
+  name: "marshot",
+} as const; // 이 Object는 literal type 지정 알아서 해줘
 
-// Type 변수 지정할 때의 주의점
-// 같은 이름의 type 변수 재정의 불가능
+playerFunc(playerObj.name);
+
+// as const
+// - object value를 그대로 타입으로 지정해 준다
+// - object 속성들에 모두 readonly 붙여준다
