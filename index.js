@@ -1,37 +1,35 @@
-// null & undefined 타입을 체크하는 경우가 많음
-function myFunc(a) {
-    // if 문을 하나로 줄이는 테크닉
-    if (a && typeof a === "string") {
-        // && 연산자의 다른 기능
-        // && 기호로 비교할 때 true와 false를 넣는게 아니라 자료형을 넣으면
-        // && 사이에서 처음 등장하는 falsy 값을 찾아주고 그게 아니면 마지막 값을 남겨준다
-        // falsy란: false와 유사한 기능을 하는 null, undefined, NaN 값들을 의미
-        // 1 && null && 3  => null이 남음
-        // undefined && '안녕' && 100 => undefined가 남음
+// never type
+// 함수에 never type을 쓸 수 있는 조건
+// 1. return 값이 없어야 한다
+// 2. endpoint가 없어야 한다 (함수가 끝나지 않아야 한다.)
+// 사실 둘 다 똑같은 소리
+function myFunc() {
+    // 모든 함수는 (undefined)retrun을 하기 때문에 조건 2만 충족되면 사용 가능
+    // 끝나지 않는 함수란?
+    throw new Error();
+}
+// 끝나지 않는 함수 예시 2
+function yourFunc() {
+    while (true) {
+        // 내부 코드를 무한히 반복함
     }
 }
-function animals(animal) {
-    // typeof 연산자는 number string boolean object 이런 식으로만 판정가능
-    // 따라서 in 키워드로 object narrowing 가능
-    if ("swim" in animal) {
-        animal.swim;
+// 실제 현업에서 never 타입 쓰는 법
+// - 대부분 쓸데없음: void 쓰면 됨
+// 알아야하는 이유: 가끔 코드 이상하게 짜면 never type이 등장함
+// ex)
+// 경우1
+function person(param) {
+    if (typeof param == "string") {
+        console.log(param);
     }
-    else if ("fly" in animal) {
-        animal.fly;
-    }
-}
-// instanceof 연산자로 object narrowing 가능
-var date = new Date();
-if (date instanceof Date) {
-    // 코드
-}
-function vehicle(x) {
-    // 이 경우 in 키워드는 쓸 수 없다. (Car 또는 Bike에만 있는 속성이 있어야 함)
-    // 또한 부모가 없기 때문에 오브젝트 instanceof 부모class 문법도 안됨
-    // 비슷한 object 타입일 경우 literal type을 강제로 만들어두면 도움됨
-    if (x.wheel === "4개") {
-        // 코드
-        console.log(x);
+    else {
+        console.log(param); // param의 타입은 무조건 string인데, else를 썼으니 이 경우 param의 타입은 never가 된다. (있을 수 없다)
     }
 }
-// 논리적으로 이 타입인지 특정지을 수 있으면 narrowing으로 인정해 줌
+// 경우2
+// 어떤 함수표현식은 return 타입이 자동으로 never가 된다
+var player = function () {
+    // 이 경우 player()의 타입은 자동으로 never
+    throw new Error();
+};
