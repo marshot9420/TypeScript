@@ -1,14 +1,14 @@
-function skills() {
-  this.q = "strike";
-  this.w = "snowball";
-}
-
-var nunu = new skills();
-
-console.log(nunu.name);
-// name이 없으면 부모에게 물어본다 (prototype chain)
-// 여기서는 없으니 결과는 undefined
-
-skills.prototype.name = "kim";
-
-console.log(nunu.name);
+var Person = /** @class */ (function () {
+    function Person(name) {
+        // constructor() 파라미터 타입지정 가능
+        this.name = name;
+    }
+    Person.prototype.myFunc = function (age) {
+        console.log("Hello, My name is ".concat(this.name, ", and I'm ").concat(age, " years old"));
+    };
+    return Person;
+}());
+var person1 = new Person("marshot");
+var person2 = new Person("janghoon");
+console.log(person1.name);
+console.log(person1.myFunc(20));
