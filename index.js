@@ -1,51 +1,78 @@
-// TypeScript의 장점: 객체지향언어같은 문법도 제공함 (public, private, protected, static)
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var User = /** @class */ (function () {
-    // constructor가 존재하는 이유: 파라미터 입력 가능
     function User() {
-        this.name = "marshot";
+        this.x = 10;
     }
     return User;
-}());
-var Player = /** @class */ (function () {
-    function Player(a) {
-        this.name = "marshot"; // public 키워드: 모든 자식들이 사용 가능
-        this.name = a;
+}()); // class를 복사하고 싶을 때
+var NewUser = /** @class */ (function (_super) {
+    __extends(NewUser, _super);
+    function NewUser() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    Player.prototype.myFunc = function () { }; // 함수에도 사용 가능
+    return NewUser;
+}(User));
+var user = new NewUser();
+console.log(user);
+var Player = /** @class */ (function () {
+    function Player() {
+        this.x = 10; // private와 마찬가지로 class {} 안에서만 사용가능 다만, protected는 좀 더 확장성이 있다.
+    }
     return Player;
 }());
-var player = new Player("jagnhoon"); // 사실 public 키워드는 자동으로 설정되어있음 (생략가능)
-player.name = "MARSHOT";
-var Person = /** @class */ (function () {
-    function Person(a) {
-        this.name = "marshot";
-        this.name = a;
+var NewPlayer = /** @class */ (function (_super) {
+    __extends(NewPlayer, _super);
+    function NewPlayer() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
+    NewPlayer.prototype.doThis = function () {
+        this.x = 20; // protected는 현재 class {} 안에서 + extends 된 class{} 안에서 사용가능 (자식은 X)
+    };
+    return NewPlayer;
+}(Player));
+// protected: extends된 class는 사용가능, 자식들은 사용불가능
+// private: extends된 class는 사용불가능, 자식들은 사용불가능
+var Person = /** @class */ (function () {
+    function Person() {
+        this.y = 20; // extends 쓰면 잘 따라옴
+    }
+    Person.x = 10; // static 키워드 붙이면 부모 class에 직접 부여된다. (+ 자식에게 안물려줌)
     return Person;
 }());
-var person = new Person("marshot");
-// person.name; => 사용불가, 클래스 내에서만 사용 가능
-var Warrior = /** @class */ (function () {
-    function Warrior(a) {
-        this.familyName = "Choi"; // familyName을 변경하고 싶지 않을 때, 실수로 familyName을 변경하는 것을 방지해 준다, class 내에서 안에서만 수정, 사용가능
-        this.name = a + this.familyName;
+var person = new Person();
+console.log(Person.x);
+var Animal = /** @class */ (function () {
+    function Animal() {
+        this.y = 20;
     }
-    Warrior.prototype.familyNameChanger = function () {
-        this.familyName = "park"; // 2. 미리 변경하도록 함수를 클래스 내부에 만들고
-    };
-    return Warrior;
+    Animal.x = 10; // private / protected / public + static 가능
+    return Animal;
 }());
-var warrior = new Warrior("janghoon");
-console.log(warrior);
-// 1. class 밖에서 사용하려면
-warrior.familyNameChanger();
-console.log(warrior);
-// 데이터를 외부로부터 보호하고 싶을 때 자주 사용하는 패턴이다.
-var Hero = /** @class */ (function () {
-    function Hero(name) {
-        this.name = name;
-    } // 기존에 name먼저 선언하고 constructor 사용이 귀찮으면 이렇게 작성 가능
-    return Hero;
+var animal = new Animal();
+// 응용
+var Human = /** @class */ (function () {
+    function Human() {
+        this.intro = "".concat(Human.skill, " \uC804\uBB38\uAC00");
+    }
+    Human.skill = "JS";
+    return Human;
 }());
-var hero = new Hero("marshot");
-console.log(hero);
+var marshot = new Human();
+console.log(marshot);
+Human.skill = "TS";
+marshot = new Human();
+console.log(marshot);
