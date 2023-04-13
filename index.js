@@ -1,14 +1,14 @@
-var Person = /** @class */ (function () {
-    function Person(name) {
-        // constructor() 파라미터 타입지정 가능
-        this.name = name;
-    }
-    Person.prototype.myFunc = function (age) {
-        console.log("Hello, My name is ".concat(this.name, ", and I'm ").concat(age, " years old"));
-    };
-    return Person;
-}());
-var person1 = new Person("marshot");
-var person2 = new Person("janghoon");
-console.log(person1.name);
-console.log(person1.myFunc(20));
+var square = {
+    color: "red",
+    width: 100,
+};
+var student = {
+    name: "marshot",
+};
+var teacher = {
+    name: "marshot",
+    age: 20,
+};
+console.log(student);
+console.log(teacher);
+var user = { name: "marshot" }; // type이 'never'가 된다 (string과 number 둘 다 만족해야함)
