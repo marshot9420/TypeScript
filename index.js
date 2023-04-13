@@ -1,35 +1,51 @@
-// never type
-// 함수에 never type을 쓸 수 있는 조건
-// 1. return 값이 없어야 한다
-// 2. endpoint가 없어야 한다 (함수가 끝나지 않아야 한다.)
-// 사실 둘 다 똑같은 소리
-function myFunc() {
-    // 모든 함수는 (undefined)retrun을 하기 때문에 조건 2만 충족되면 사용 가능
-    // 끝나지 않는 함수란?
-    throw new Error();
-}
-// 끝나지 않는 함수 예시 2
-function yourFunc() {
-    while (true) {
-        // 내부 코드를 무한히 반복함
+// TypeScript의 장점: 객체지향언어같은 문법도 제공함 (public, private, protected, static)
+var User = /** @class */ (function () {
+    // constructor가 존재하는 이유: 파라미터 입력 가능
+    function User() {
+        this.name = "marshot";
     }
-}
-// 실제 현업에서 never 타입 쓰는 법
-// - 대부분 쓸데없음: void 쓰면 됨
-// 알아야하는 이유: 가끔 코드 이상하게 짜면 never type이 등장함
-// ex)
-// 경우1
-function person(param) {
-    if (typeof param == "string") {
-        console.log(param);
+    return User;
+}());
+var Player = /** @class */ (function () {
+    function Player(a) {
+        this.name = "marshot"; // public 키워드: 모든 자식들이 사용 가능
+        this.name = a;
     }
-    else {
-        console.log(param); // param의 타입은 무조건 string인데, else를 썼으니 이 경우 param의 타입은 never가 된다. (있을 수 없다)
+    Player.prototype.myFunc = function () { }; // 함수에도 사용 가능
+    return Player;
+}());
+var player = new Player("jagnhoon"); // 사실 public 키워드는 자동으로 설정되어있음 (생략가능)
+player.name = "MARSHOT";
+var Person = /** @class */ (function () {
+    function Person(a) {
+        this.name = "marshot";
+        this.name = a;
     }
-}
-// 경우2
-// 어떤 함수표현식은 return 타입이 자동으로 never가 된다
-var player = function () {
-    // 이 경우 player()의 타입은 자동으로 never
-    throw new Error();
-};
+    return Person;
+}());
+var person = new Person("marshot");
+// person.name; => 사용불가, 클래스 내에서만 사용 가능
+var Warrior = /** @class */ (function () {
+    function Warrior(a) {
+        this.familyName = "Choi"; // familyName을 변경하고 싶지 않을 때, 실수로 familyName을 변경하는 것을 방지해 준다, class 내에서 안에서만 수정, 사용가능
+        this.name = a + this.familyName;
+    }
+    Warrior.prototype.familyNameChanger = function () {
+        this.familyName = "park"; // 2. 미리 변경하도록 함수를 클래스 내부에 만들고
+    };
+    return Warrior;
+}());
+var warrior = new Warrior("janghoon");
+console.log(warrior);
+// 1. class 밖에서 사용하려면
+warrior.familyNameChanger();
+console.log(warrior);
+// 데이터를 외부로부터 보호하고 싶을 때 자주 사용하는 패턴이다.
+var Hero = /** @class */ (function () {
+    function Hero(name) {
+        this.name = name;
+    } // 기존에 name먼저 선언하고 constructor 사용이 귀찮으면 이렇게 작성 가능
+    return Hero;
+}());
+var hero = new Hero("marshot");
+console.log(hero);
