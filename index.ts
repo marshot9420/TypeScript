@@ -1,63 +1,36 @@
-// Object 타입 지정할 땐 interface 사용 가능
-interface squareType {
-  color: string;
-  width: number;
+// ...: spread operator
+
+// 기능1: rest parameter (함수의 파라미터에 사용)
+function myFunc(...a: number[]) {
+  console.log(a);
 }
 
-let square = {
-  color: "red",
-  width: 100,
-};
+myFunc(1, 2, 3, 4, 5);
 
-// 퀴즈
-interface Student {
-  name: string;
-}
-// interface 장점: extends로 복사 가능
-interface Teacher extends Student {
+// 기능2: 괄호 벗겨주세요 문법
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5];
+let arr = [...arr1, ...arr2];
+
+console.log(arr);
+
+// destructuring 문법
+// 1. Array의 경우
+let [var1, var2] = ["Hello", 100];
+console.log(var1, var2);
+// 2. Object의 경우
+let { student, age } = { student: true, age: 20 }; //let { student: student, age: age } = { student: true, age: 20 };
+console.log(student, age);
+
+// 함수 파라미터에 객체 넣기
+interface MyParam {
+  student: boolean;
   age: number;
 }
 
-let student: Student = {
-  name: "marshot",
-};
-
-let teacher: Teacher = {
-  name: "marshot",
-  age: 20,
-};
-
-console.log(student);
-console.log(teacher);
-
-// Type Alias도 유사한 기능이 있다
-type AnimalType = { name: string };
-type CatType = { age: number } & AnimalType; // 전문용어로 intersection type
-
-// interface의 extends와 다른점:
-// extends: 복사해주세요
-// &: 교차(intersection)되는 타입 즉, 두 타입을 전부 만족하는 타입을 만들어 달라는 뜻
-
-// type vs interface
-// interface는 중복 선언이 가능
-// ex)
-interface Player {
-  name: string;
+function print({ student, age }: MyParam) {
+  console.log(student, age);
 }
-interface Player {
-  age: number;
-}
-// 위에 Player가 선언되어 있어도 아래 같은 변수명으로 작성 가능 (합쳐짐)
 
-// type은 중복선언 불가능
-
-// interface의 장점
-// 외부 라이브러리같은 경우 interface를 많이 쓴다 (중복 가능)
-// 그럼 추후에 타입에 뭔갈 더하는 것이 쉽다
-
-// extends 쓸 때 중복 속성이 발생하면 => 에러로 잡아준다
-// &를 쓸 때 중복 속성이 발생하면 => 에러가 안난다
-// ex)
-type User = { name: string };
-type Marshot = { name: number } & User;
-let user: Marshot = { name: "marshot" }; // type이 'never'가 된다 (string과 number 둘 다 만족해야함)
+let myObj = { student: true, age: 20 };
+print({ student: true, age: 20 });
