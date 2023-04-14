@@ -1,18 +1,55 @@
-// implements 키워드
-// interface는 object 타입지정할 때 씀
-// class 타입을 확인하고 싶을 때도 interface 문법 사용 가능 (implements 키워드도 필요)
-interface CarType {
-  model: string;
-  price: number;
+// index signature 쓰면 object 타입지정 한번에 가능
+interface UserStringOnly {
+  [key: string]: string; // 모든 string으로 된 속성
 }
 
-class Car implements CarType {
-  model: string;
-  price: number = 1000;
-  constructor(a: string) {
-    this.model = a;
-  }
+let user: UserStringOnly = {
+  name: "marshot",
+  age: "20",
+  location: "Gimhae",
+};
+
+interface PlayerStringOnly {
+  age: number; // 이렇게 안됨 (밑에 | number 추가하면 가능), 리터럴 타입도 가능
+  [key: string]: string | number;
 }
 
-let car = new Car("morning");
-// implements라는건 interface에 들어있는 속성을 가지고 있는지 확인만 하라는 뜻 (class에 타입을 할당하고 변형시키는 키워드가 아님)
+let player: PlayerStringOnly = {
+  name: "marshot",
+  age: 28,
+  location: "Gimhae",
+};
+
+// 속성 이름(key)에 숫자 가능
+interface AnimalStringOnly {
+  [key: number]: string; // key 값이 number일 때 string으로 타입 지정 해 주세요
+} // key: number에서 number에 string 넣어도 에러 안남 (object key에 배정된 숫자는 결국 문자로 바뀌기 때문)
+
+let animal: AnimalStringOnly = {
+  0: "dog",
+  1: "10",
+};
+
+// 이런 object 자료의 타입 지정
+let css = {
+  "font-size": {
+    "font-size": {
+      "font-size": 14,
+    },
+  },
+};
+// 사실 자동으로 14는 number로 지정되어 있음
+// 혹은 같은 형태의 interface 생성
+
+// 혹은 아래와 같이 recursive 하게 타입을 만듦
+interface MyType {
+  "font-size": MyType | number;
+}
+
+let scss: MyType = {
+  "font-size": {
+    "font-size": {
+      "font-size": 20,
+    },
+  },
+};
