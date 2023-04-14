@@ -1,23 +1,28 @@
-// tuple type: 위치까지 고려한 타입 지정 가능
-let dog: (string | boolean)[] = ["dog", true];
+// 자바스크립트 파일을 타입스크립트 파일에서 이용하고 싶을 때
+// - 일반 html css js 개발시 그냥 <script src=""></script>
 
-// ?는 맨 뒤에만 가능 (2개 이상일 경우 맨 뒤에서부터 순서대로)
-let cat: [string, boolean?, number?] = ["cat", true];
+// data.js의 변수
+console.log(a + 1); // 당연히 에러가 나지만 브라우저 콘솔창에서는 잘 출력됨
 
-// rest parameter에 활용 가능
-function myFunc(...x: [number, string]) {
-  console.log(x);
-}
+// 변수 재정의가 가능한 declare 문법
+declare let a: number;
+console.log(a + 1);
 
-myFunc(1, "2");
-// 위와 같음 다만 myFunc는(rest parameter는) []에 파라미터가 전부 담겨서 온다
-function sameFunc(a: number, b: string) {
-  console.log([a, b]);
-}
+// declare로 재정의한 내용은 js로 변환되지 않는다
+// 특히 .js로 만든 라이브러리 사용할 때 ts에서 에러 발생
 
-sameFunc(111, "222");
+// ts파일 끼리는 그냥 import export
+console.log(c);
 
-let arr1 = [1, 2, 3];
-let arr2: [number, number, ...number[]] = [4, 5, ...arr1]; // spread operator의 타입지정도 똑같이 '...타입[]'
+// ts 이상한 특징: 모든 ts 파일은 ambient module이 된다 (글로벌 모듈)
+// 즉, (ts에서)export한 변수, 함수 등은 모든 ts파일에서 사용 가능
 
-console.log(arr2); // [4, 5, 1, 2, 3]
+// 때문에 아래와 같이 name이라는 변수명은 사용할 수 없다 이미 'lib.dom.d.ts'라는 파일에서 사용중이기 때문
+let name = "marshot";
+
+// ts파일을 ambient 모듈이 아니라 로컬 모듈로 만드는 법
+// import export 있으면 자동으로 로컬 모듈임 (app.ts 참조)
+
+// 로컬 모듈일 때 글로벌 변수를 만들고 싶을 때 (app.ts 참조)
+let player: Player = "marshot";
+console.log(player);
