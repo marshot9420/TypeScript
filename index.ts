@@ -1,11 +1,18 @@
-// d.ts파일은 다른 ts파일에서 import 가능
-import { Age, Person } from "./test";
+// implements 키워드
+// interface는 object 타입지정할 때 씀
+// class 타입을 확인하고 싶을 때도 interface 문법 사용 가능 (implements 키워드도 필요)
+interface CarType {
+  model: string;
+  price: number;
+}
 
-let age: Age = 28;
+class Car implements CarType {
+  model: string;
+  price: number = 1000;
+  constructor(a: string) {
+    this.model = a;
+  }
+}
 
-// ts파일에 타입 정의가 너무 길면 d.ts파일 만들기도 함
-// import/export 할게 많으면 namespace 또는 import * as 사용
-
-let player: User = "marshot"; // ./types/common/main.d.ts 의 타입
-
-// npm 설치 시 대부분 type도 들어옴
+let car = new Car("morning");
+// implements라는건 interface에 들어있는 속성을 가지고 있는지 확인만 하라는 뜻 (class에 타입을 할당하고 변형시키는 키워드가 아님)
