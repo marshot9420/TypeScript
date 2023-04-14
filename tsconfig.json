@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "declaration": true // 특정 파일에서 사용하는 모든 타입을 레퍼런스용으로 저장한 d.ts 파일 자동생성
+    "declaration": true, // 특정 파일에서 사용하는 모든 타입을 레퍼런스용으로 저장한 d.ts 파일 자동생성
+    "typeRoots": ["./types"] // 이 폴더 내에 있는 타입들은 글로벌하게 이용
   }
 }
